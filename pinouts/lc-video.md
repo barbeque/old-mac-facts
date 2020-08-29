@@ -2,6 +2,7 @@
 
 ## All pins
 |LC Pin  | Signal |
+|--------|--------|
 |1	| Red ground |
 |2	| Red video |
 |3, 15	| /CSYNC (Apple) or /HSYNC (VGA) depending on monitor used |
@@ -17,6 +18,12 @@
 |13	| Blue ground |
 |14	| /HSYNC ground |
 |Shell	| Chassis ground |
+
+| Sense combination | To Get .... |
+|-------------------|-------------|
+| SENSE0 grounded   | 640x480 |
+| SENSE0 & SENSE2 grounded | 512x384 (12") |
+| SENSE2 grounded   | VGA |
 
 ## VGA-relevant pins
 | LC Pin | Signal                 |
