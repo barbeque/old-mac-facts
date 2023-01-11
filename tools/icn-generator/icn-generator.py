@@ -63,7 +63,8 @@ def generate_mask(im, solid_mask = False):
     if solid_mask:
         mask = Image.new('1', (32, 32))
         assert(32 == mask.width)
-        ImageDraw.floodfill(mask, (0,0), 0xff)
+        colour = 0xff
+        ImageDraw.floodfill(mask, (0,0), colour)
     else:
         mask = im.copy()
         # FIXME: eventually do some fancy outline detection, or
