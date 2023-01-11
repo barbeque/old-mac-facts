@@ -54,7 +54,7 @@ def output_image_c(im, mask):
 
     print(f'static const unsigned char icon[] = {{ /* {args[0]} */')
     # TODO: pretty print this so it's not just one big glob
-    print(', '.join([ "0x{:02x}".format(b) for b in appended ]))
+    print('\t' + ', '.join([ "0x{:02x}".format(b) for b in appended ]))
     print('};')
     return
 
