@@ -1,5 +1,5 @@
-# ICN Generator
-Builds an ICN resource out of a 32x32 black and white PNG. Guesses the mask.
+# ICN# Generator
+Builds an ICN# resource out of a 32x32 black and white PNG. Guesses the mask.
 
 Pull requests very welcome.
 
@@ -13,3 +13,7 @@ Invoke the following commands:
 ```
 
 Copy and paste the resulting text/hex data into ResEdit's "as text" view for ICNs.
+
+# Options
+ * `-c`: Generate C header file format instead of raw hex bytes
+ * `-b`: Fill mask with all black ($FF)

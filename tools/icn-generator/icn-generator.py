@@ -1,10 +1,11 @@
-from PIL import Image
+from PIL import Image, ImageDraw
 import os, sys
 from optparse import OptionParser
 
 usage = "usage: %prog [options] <32x32 image file>"
 parser = OptionParser(usage=usage)
 parser.add_option("-c", "--c-output", action="store_true", dest="generate_c", default=False, help="Generate a C-language header file definition for the icon")
+parser.add_option("-b", "--blackout-mask", action="store_true", dest="generate_solid_mask", default="False", help="Generate an all-black, square mask")
 
 (options, args) = parser.parse_args()
 
@@ -58,14 +59,19 @@ def output_image_c(im, mask):
     print('};')
     return
 
-def generate_mask(im):
-    mask = im.copy()
-    # FIXME: eventually do some fancy outline detection, or
-    # flood fill and invert if the outline isn't literally touching
-    # the edges like my example one is
+def generate_mask(im, solid_mask = False):
+    if solid_mask:
+        mask = Image.new('1', (32, 32))
+        assert(32 == mask.width)
+        ImageDraw.floodfill(mask, (0,0), 0xff)
+    else:
+        mask = im.copy()
+        # FIXME: eventually do some fancy outline detection, or
+        # flood fill and invert if the outline isn't literally touching
+        # the edges like my example one is
     return mask
 
-mask = generate_mask(im)
+mask = generate_mask(im, options.generate_solid_mask)
 
 if options.generate_c:
     output_image_c(im, mask)
