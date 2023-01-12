@@ -17,3 +17,6 @@ Copy and paste the resulting text/hex data into ResEdit's "as text" view for ICN
 # Options
  * `-c`: Generate C header file format instead of raw hex bytes
  * `-b`: Fill mask with all black ($FF)
+
+# Other tools
+ * `icn-dumper.py`: Produces icon and mask files from a comma-separated hex definition
