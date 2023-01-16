@@ -5,7 +5,7 @@ from optparse import OptionParser
 usage = "usage: %prog [options] <32x32 image file>"
 parser = OptionParser(usage=usage)
 parser.add_option("-c", "--c-output", action="store_true", dest="generate_c", default=False, help="Generate a C-language header file definition for the icon")
-parser.add_option("-b", "--blackout-mask", action="store_true", dest="generate_solid_mask", default="False", help="Generate an all-black, square mask")
+parser.add_option("-b", "--blackout-mask", action="store_true", dest="generate_solid_mask", default=False, help="Generate an all-black, square mask")
 
 (options, args) = parser.parse_args()
 
@@ -67,9 +67,23 @@ def generate_mask(im, solid_mask = False):
         ImageDraw.floodfill(mask, (0,0), colour)
     else:
         mask = im.copy()
-        # FIXME: eventually do some fancy outline detection, or
-        # flood fill and invert if the outline isn't literally touching
-        # the edges like my example one is
+        # rough outline-based mask:
+        #   for each line:
+        #       draw black from the first black pixel
+        #       to the last black pixel of the line
+        for y in range(0, mask.height):
+            # find the first black and last black pixel of this line
+            first_black = -1
+            last_black = -1
+            for x in range(0, mask.width):
+                if mask.getpixel((x, y)) == 0:
+                    if first_black < 0:
+                        first_black = x
+                    last_black = x
+            if first_black >= 0:
+                # black out the assumed mask on this line
+                for x in range(first_black, last_black):
+                    mask.putpixel((x, y), 0)
     return mask
 
 mask = generate_mask(im, options.generate_solid_mask)
