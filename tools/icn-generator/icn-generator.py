@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageOps
 import os, sys
 from optparse import OptionParser
 
@@ -6,6 +6,7 @@ usage = "usage: %prog [options] <32x32 image file>"
 parser = OptionParser(usage=usage)
 parser.add_option("-c", "--c-output", action="store_true", dest="generate_c", default=False, help="Generate a C-language header file definition for the icon")
 parser.add_option("-b", "--blackout-mask", action="store_true", dest="generate_solid_mask", default=False, help="Generate an all-black, square mask")
+parser.add_option("-i", "--invert", action="store_true", dest="invert", default=False, help="Invert colours of the source image before generating an icon.")
 
 (options, args) = parser.parse_args()
 
@@ -19,6 +20,9 @@ im = Image.open(args[0])
 im = im.resize((32, 32))
 # Convert to 1-bit colour
 im = im.convert("1")
+
+if options.invert:
+    im = ImageOps.invert(im)
 
 def padded_hex(byte):
     return "{:02x}".format(byte)
